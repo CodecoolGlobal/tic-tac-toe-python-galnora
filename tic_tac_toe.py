@@ -1,6 +1,6 @@
 def init_board():
     """Returns an empty 3-by-3 board (with .)."""
-    board = []
+    board = [ [ 'X','.','.' ],[ '.','0','.' ],[ '.','.','X' ] ]
     return board
 
 
@@ -33,6 +33,12 @@ def is_full(board):
 
 def print_board(board):
     """Prints a 3-by-3 board on the screen with borders."""
+    abc = [ 'A', 'B', 'C' ]
+    print( '  1   2   3 ')
+    for row in range(len(board)):
+        print(abc[row], " | ".join(board[row]))
+        if row < 2:
+            print(' ---+---+---')
     pass
 
 
