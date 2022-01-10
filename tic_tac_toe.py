@@ -55,15 +55,41 @@ def mark(board, player, row, col):
 print(mark(board,player,row,col))    
 
 
-# def has_won(board, player):
-#     """Returns True if player has won the game."""
-#     return False
+def has_won(board, player):
+    win = True
+
+    for row in board:
+        if row[0] == player:
+            for i in range(1,3):
+                if row[i] != player:
+                    win = False
+    
+    for col in range(0,3):
+        if col[0] == player:
+            for i in range(1,3):
+                if col[i] != player:
+                    win = False
+
+    win = True
+    for x in range(len(board)):
+        y = len(board) - 1 - x
+        if board[x, y] != player:
+            win = False
+    return win  
 
 
-# def is_full(board):
-#     """Returns True if board is full."""
-#     return False
+def is_full(board):
+    is_board_full = True
+    for row in board:
+        for position in row:
+            if position == '.':
+                is_board_full = False
+                break
+    return is_board_full
 
+# print(is_full([ [ '.','.','.' ],[ '.','.','.' ],[ '.','.','.' ] ]))
+# print(is_full([ [ '','','' ],[ '','','' ],[ '','','' ] ]))
+print(is_full([ [ '','.','' ],[ '','','' ],[ '','','' ] ]))
 
 # def print_board(board):
 #     """Prints a 3-by-3 board on the screen with borders."""
