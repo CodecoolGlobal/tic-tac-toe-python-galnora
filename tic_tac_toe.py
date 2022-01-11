@@ -1,49 +1,43 @@
 def init_board():
     """Returns an empty 3-by-3 board (with .)."""
-    board = [ [ '.','.','.' ],[ '.','.','.' ],[ '.','.','.' ] ]
+    board = []
     return board
 
-
-def get_move(board, player, row_dictionary):
+def get_move(board, row_dictionary):
     """Returns the coordinates of a valid move for player on board."""
     row, col = 0, 0
     acceptable_rows = ['A','a','B','b','C','c']        
     acceptable_cols = [1,2,3] 
     return_message = False
-    
-
     while return_message is False:
-        cordinates = input ("cordinates ((A-C)(1-3)):")
-        if len(cordinates) == 2:
-            cordinates_list=[]
-            for n in cordinates:
-                cordinates_list.append(n)
-            row = cordinates_list[0].lower()
-            try:
-                col = int(cordinates_list[1])
-            except ValueError:
-                continue
-            if row in acceptable_rows and col in acceptable_cols:
-                if board[row_dictionary['a']][col-1] == '.':
-                    return row, col
-                if board[row_dictionary['b']][col-1] == '.':
-                    return row, col
-                if board[row_dictionary['c']][col-1] == '.':
-                    return row, col
-
-board = [['.','.','.'],['.','.','.'],['.','.','.']]
-player = 'X'
-row_dictionary= {'a':0,'b':1,'c':2}
-row, col = get_move(board,player,row_dictionary)
-
-
+        cordinates = input ("cordinates ((A-C)(1-3)) or 'quit' for quit:")
+        if not cordinates == "quit":
+            if len(cordinates) == 2:
+                cordinates_list=[]
+                for n in cordinates:
+                    cordinates_list.append(n)
+                row = cordinates_list[0].lower()
+                try:
+                    col = int(cordinates_list[1])
+                except ValueError:
+                    continue
+                if row in acceptable_rows and col in acceptable_cols:
+                    if board[row_dictionary['a']][col-1] == '.':
+                        return row, col
+                    if board[row_dictionary['b']][col-1] == '.':
+                        return row, col
+                    if board[row_dictionary['c']][col-1] == '.':
+                        return row, col
+        else:
+            goodbye = "Goodbye"
+            return goodbye
 # def get_ai_move(board, player):
 #     """Returns the coordinates of a valid move for player on board."""
 #     row, col = 0, 0
 #     return row, col
 
 
-def mark(board, player, row, col):
+def mark(board, player, row, col, row_dictionary):
     """Marks the element at row & col on the board for player."""
     if player == '0':
         board[row_dictionary[row]][col-1] = '0'
@@ -51,30 +45,25 @@ def mark(board, player, row, col):
         board[row_dictionary[row]][col-1] = 'X'
     return board
 
-print(mark(board,player,row,col))    
-
-
 def has_won(board, player):
-    win = True
-
-    for row in board:
-        if row[0] == player:
-            for i in range(1,3):
-                if row[i] != player:
-                    win = False
+    win = False
     
-    for col in range(0,3):
-        if col[0] == player:
-            for i in range(1,3):
-                if col[i] != player:
-                    win = False
+    for i in range(len(board)):
+        if board[i][0] == player and board[i][1] == player and board[i][2] == player:
+            win = True
 
-    win = True
-    for x in range(len(board)):
-        y = len(board) - 1 - x
-        if board[x, y] != player:
-            win = False
-    return win  
+    for i in range(len(board)):
+        if board[0][i] == player and board[1][i] == player and board[2][i] == player:
+            win = True
+
+    if board[0][0] == player and board[1][1] == player and board[2][2] == player:
+            win = True
+
+    if board[0][2] == player and board[1][1] == player and board[2][0] == player:
+            win = True
+
+    return win
+
 
 
 def is_full(board):
@@ -88,7 +77,7 @@ def is_full(board):
 
 # print(is_full([ [ '.','.','.' ],[ '.','.','.' ],[ '.','.','.' ] ]))
 # print(is_full([ [ '','','' ],[ '','','' ],[ '','','' ] ]))
-print(is_full([ [ '','.','' ],[ '','','' ],[ '','','' ] ]))
+# print(is_full([ [ '','.','' ],[ '','','' ],[ '','','' ] ]))
 
 
 def print_board(board):
@@ -104,6 +93,7 @@ def print_board(board):
 
 def print_result(winner):
     """Congratulates winner or proclaims tie (if winner equals zero)."""
+
     if has_won(board, X):
         print("X has won!")
     elif has_won(board, 0):
@@ -113,10 +103,35 @@ def print_result(winner):
     pass
 
 
-# def tictactoe_game(mode='HUMAN-HUMAN'):
-#     board = init_board()
+def tictactoe_game(mode='HUMAN-HUMAN'):
+    board = init_board()
+    won = False
+    row_dictionary= {'a':0,'b':1,'c':2}
+    player_value = 0
+    while won:
+        player_value += 1
+        if player_value % 2 == 1:
+            player = 'X'
+        else:
+            player = '0'
+        if len(get_move(board, row_dictionary)) == 1:
+            return print(get_move(board, row_dictionary))
+        else:
+            row, col = get_move(board, row_dictionary)
+        mark = mark(board, player, row, col, row_dictionary)
+        won = has_won(board, player)
+        is_full = is_full(board)
+        if won is True or is_full is True:
 
-#     # use get_move(), mark(), has_won(), is_full(), and print_board() to create game logic
+        
+        
+
+ 
+    # use get_move(), mark(), has_won(), is_full(), and print_board() to create game logic
+   
+
+
+
 #     print_board(board)
 #     row, col = get_move(board, 1)
 #     mark(board, 1, row, col)
