@@ -3,8 +3,6 @@ def init_board():
     board = []
     return board
 
-
-
 def get_move(board, player, row_dictionary):
     """Returns the coordinates of a valid move for player on board."""
     row, col = 0, 0
@@ -90,9 +88,16 @@ def is_full(board):
 # print(is_full([ [ '','','' ],[ '','','' ],[ '','','' ] ]))
 # print(is_full([ [ '','.','' ],[ '','','' ],[ '','','' ] ]))
 
-# def print_board(board):
-#     """Prints a 3-by-3 board on the screen with borders."""
-#     pass
+
+def print_board(board):
+    """Prints a 3-by-3 board on the screen with borders."""
+    abc = [ 'A', 'B', 'C' ]
+    print( '  1   2   3 ')
+    for row in range(len(board)):
+        print(abc[row], " | ".join(board[row]))
+        if row < 2:
+            print(' ---+---+---')
+    pass
 
 
 def print_result(winner):
