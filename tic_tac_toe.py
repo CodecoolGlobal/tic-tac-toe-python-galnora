@@ -1,9 +1,7 @@
-# def init_board():
-#     """Returns an empty 3-by-3 board (with .)."""
-#     board = []
-#     return board
-
-
+def init_board():
+    """Returns an empty 3-by-3 board (with .)."""
+    board = []
+    return board
 
 def get_move(board, player, row_dictionary):
     """Returns the coordinates of a valid move for player on board."""
@@ -52,30 +50,29 @@ def mark(board, player, row, col):
         board[row_dictionary[row]][col-1] = 'X'
     return board
 
-print(mark(board,player,row,col))    
+# print(mark(board,player,row,col))    
 
 
 def has_won(board, player):
-    win = True
-
-    for row in board:
-        if row[0] == player:
-            for i in range(1,3):
-                if row[i] != player:
-                    win = False
+    win = False
     
-    for col in range(0,3):
-        if col[0] == player:
-            for i in range(1,3):
-                if col[i] != player:
-                    win = False
+    for i in range(len(board)):
+        if board[i][0] == player and board[i][1] == player and board[i][2] == player:
+            win = True
 
-    win = True
-    for x in range(len(board)):
-        y = len(board) - 1 - x
-        if board[x, y] != player:
-            win = False
-    return win  
+    for i in range(len(board)):
+        if board[0][i] == player and board[1][i] == player and board[2][i] == player:
+            win = True
+
+    if board[0][0] == player and board[1][1] == player and board[2][2] == player:
+            win = True
+
+    if board[0][2] == player and board[1][1] == player and board[2][0] == player:
+            win = True
+
+    return win
+
+print(has_won([ [ '.','.','x' ],[ '.','x','.' ],[ '.','.','.' ] ], player = "x"))
 
 
 def is_full(board):
@@ -89,33 +86,52 @@ def is_full(board):
 
 # print(is_full([ [ '.','.','.' ],[ '.','.','.' ],[ '.','.','.' ] ]))
 # print(is_full([ [ '','','' ],[ '','','' ],[ '','','' ] ]))
-print(is_full([ [ '','.','' ],[ '','','' ],[ '','','' ] ]))
-
-# def print_board(board):
-#     """Prints a 3-by-3 board on the screen with borders."""
-#     pass
+# print(is_full([ [ '','.','' ],[ '','','' ],[ '','','' ] ]))
 
 
-# def print_result(winner):
-#     """Congratulates winner or proclaims tie (if winner equals zero)."""
-#     pass
+def print_board(board):
+    """Prints a 3-by-3 board on the screen with borders."""
+    abc = [ 'A', 'B', 'C' ]
+    print( '  1   2   3 ')
+    for row in range(len(board)):
+        print(abc[row], " | ".join(board[row]))
+        if row < 2:
+            print(' ---+---+---')
+    pass
 
 
-# def tictactoe_game(mode='HUMAN-HUMAN'):
-#     board = init_board()
-
-#     # use get_move(), mark(), has_won(), is_full(), and print_board() to create game logic
-#     print_board(board)
-#     row, col = get_move(board, 1)
-#     mark(board, 1, row, col)
-
-#     winner = 0
-#     print_result(winner)
+def print_result(winner):
+    """Congratulates winner or proclaims tie (if winner equals zero)."""
+    pass
 
 
-# def main_menu():
-#     tictactoe_game('HUMAN-HUMAN')
+def tictactoe_game(mode='HUMAN-HUMAN'):
+    board = init_board()
+ 
+    # use get_move(), mark(), has_won(), is_full(), and print_board() to create game logic
+
+    while has_won(board, player1) or has_won(board, player2):
+        print(board):
+
+        player1_move
+        player2_move
+
+        
 
 
-# if __name__ == '__main__':
-#     main_menu()
+
+
+    print_board(board)
+    row, col = get_move(board, 1)
+    mark(board, 1, row, col)
+
+    winner = 0
+    print_result(winner)
+
+
+def main_menu():
+    tictactoe_game('HUMAN-HUMAN')
+
+
+if __name__ == '__main__':
+    main_menu()
