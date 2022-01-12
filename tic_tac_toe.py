@@ -115,19 +115,16 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
             player = 'X'
         else:
             player = '0'
-        # if len(get_move(board, row_dictionary)) == 1:
-        #     return print(get_move(board, row_dictionary))
-        # else:
-        row, col = get_move(board, row_dictionary)
-        board = mark(board, player, row, col, row_dictionary)
-        won = has_won(board, player)
-        is_full_value = is_full(board)
-        if won is True or is_full_value is True:
-            # pass
-        # is_full = is_full(board)
-        # if won is True or is_full is True:
-            print_result(board,player)
-
+        input = get_move(board, row_dictionary)
+        if input == 2:     
+            row, col = input
+            board = mark(board, player, row, col, row_dictionary)
+            won = has_won(board, player)
+            is_full_value = is_full(board)
+            if won is True or is_full_value is True:
+                print_result(board,player)
+        else:
+            return print(input)
 tictactoe_game(mode='HUMAN-HUMAN')
 
 #tictactoe_game()
