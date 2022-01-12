@@ -21,7 +21,7 @@ def get_move(board, row_dictionary):
                 try:
                     col = int(cordinates_list[1])
                 except ValueError:
-                     pass
+                    pass
                 if row in acceptable_rows and col in acceptable_cols:
                     if board[row_dictionary['a']][col-1] == '.':
                         return row, col
@@ -91,11 +91,11 @@ def print_result(board,player):
     """Congratulates winner or proclaims tie (if winner equals zero)."""
 
     if has_won(board, player) and player == 'X':
-        return print(Fore.RED + "X has won!")
+        return print(Fore.RED + "X has won!\n")
     elif has_won(board, player) and player == '0':
-        return print(Fore.BLUE + "0 has won!")
+        return print(Fore.BLUE + "0 has won!\n")
     elif is_full(board):
-        return print(Fore.GREEN + "It's a tie!")
+        return print(Fore.GREEN + "It's a tie!\n")
 
 
 def tictactoe_game(mode='HUMAN-HUMAN'):
@@ -106,9 +106,7 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
 
     while not won:
 
-        print(board[0])
-        print(board[1])
-        print(board[2])
+        print_board(board)
 
         player_value += 1
         if player_value % 2 == 1:
@@ -116,18 +114,17 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
         else:
             player = '0'
         input = get_move(board, row_dictionary)
-        if input == 2:     
+        if len(input) == 2:     
             row, col = input
             board = mark(board, player, row, col, row_dictionary)
             won = has_won(board, player)
             is_full_value = is_full(board)
             if won is True or is_full_value is True:
-                print_result(board,player)
+                return (print_result(board,player))
+
         else:
             return print(input)
 tictactoe_game(mode='HUMAN-HUMAN')
-
-#tictactoe_game()
         
 
  
