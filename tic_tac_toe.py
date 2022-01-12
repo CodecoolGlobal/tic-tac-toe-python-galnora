@@ -21,7 +21,7 @@ def get_move(board, row_dictionary):
                 try:
                     col = int(cordinates_list[1])
                 except ValueError:
-                     pass
+                    pass
                 if row in acceptable_rows and col in acceptable_cols:
                     if board[row_dictionary['a']][col-1] == '.':
                         return row, col
