@@ -125,10 +125,10 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
         # is_full = is_full(board)
         # if won is True or is_full is True:
             print_result(board,player)
-
+        
+# tictactoe_game()
 tictactoe_game(mode='HUMAN-HUMAN')
 
-tictactoe_game()
         
 
  
