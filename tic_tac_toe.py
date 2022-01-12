@@ -1,10 +1,6 @@
 def init_board():
     """Returns an empty 3-by-3 board (with .)."""
-<<<<<<< HEAD
     board = [ [ '.','.','.' ],[ '.','.','.' ],[ '.','.','.' ] ]
-=======
-    board = [[ '.','.','.' ],[ '.','.','.' ],[ '.','.','.' ]]
->>>>>>> 3d30e31eba0421ce3f3cd2ebfbdf5e7198fa3282
     return board
 
 def get_move(board, row_dictionary):
@@ -12,8 +8,7 @@ def get_move(board, row_dictionary):
     row, col = 0, 0
     acceptable_rows = ['A','a','B','b','C','c']        
     acceptable_cols = [1,2,3] 
-    return_message = False
-    while return_message is False:
+    while True:
         cordinates = input ("cordinates ((A-C)(1-3)) or 'quit' for quit:")
         if not cordinates == "quit":
             if len(cordinates) == 2:
@@ -24,7 +19,7 @@ def get_move(board, row_dictionary):
                 try:
                     col = int(cordinates_list[1])
                 except ValueError:
-                    continue
+                     pass
                 if row in acceptable_rows and col in acceptable_cols:
                     if board[row_dictionary['a']][col-1] == '.':
                         return row, col
@@ -106,39 +101,32 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
     won = False
     row_dictionary= {'a':0,'b':1,'c':2}
     player_value = 0
-<<<<<<< HEAD
+
     while not won:
 
         print(board[0])
         print(board[1])
         print(board[2])
 
-=======
-    while won:
-        print_board(board)
->>>>>>> 3d30e31eba0421ce3f3cd2ebfbdf5e7198fa3282
         player_value += 1
         if player_value % 2 == 1:
             player = 'X'
         else:
             player = '0'
-        if len(get_move(board, row_dictionary)) == 1:
-            return print(get_move(board, row_dictionary))
-        else:
-            row, col = get_move(board, row_dictionary)
+        # if len(get_move(board, row_dictionary)) == 1:
+        #     return print(get_move(board, row_dictionary))
+        # else:
+        row, col = get_move(board, row_dictionary)
         board = mark(board, player, row, col, row_dictionary)
         won = has_won(board, player)
-<<<<<<< HEAD
         is_full_value = is_full(board)
         if won is True or is_full_value is True:
-            pass
-=======
-        is_full = is_full(board)
-        if won is True or is_full is True:
+            # pass
+        # is_full = is_full(board)
+        # if won is True or is_full is True:
             print_result(board,player)
 
 tictactoe_game(mode='HUMAN-HUMAN')
->>>>>>> 3d30e31eba0421ce3f3cd2ebfbdf5e7198fa3282
 
 tictactoe_game()
         
