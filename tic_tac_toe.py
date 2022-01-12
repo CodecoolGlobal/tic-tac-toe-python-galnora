@@ -1,3 +1,5 @@
+from colorama import Fore
+
 def init_board():
     """Returns an empty 3-by-3 board (with .)."""
     board = [ [ '.','.','.' ],[ '.','.','.' ],[ '.','.','.' ] ]
@@ -89,11 +91,11 @@ def print_result(board,player):
     """Congratulates winner or proclaims tie (if winner equals zero)."""
 
     if has_won(board, player) and player == 'X':
-        return print("X has won!")
+        return print(Fore.RED + "X has won!")
     elif has_won(board, player) and player == '0':
-        return print("0 has won!")
+        return print(Fore.BLUE + "0 has won!")
     elif is_full(board):
-        return print("It's a tie!")
+        return print(Fore.GREEN + "It's a tie!")
 
 
 def tictactoe_game(mode='HUMAN-HUMAN'):
