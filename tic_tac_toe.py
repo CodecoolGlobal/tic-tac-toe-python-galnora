@@ -124,7 +124,6 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
 
         else:
             return print(input)
-tictactoe_game(mode='HUMAN-HUMAN')
         
 
  
@@ -141,9 +140,8 @@ tictactoe_game(mode='HUMAN-HUMAN')
 #     print_result(winner)
 
 
-# def main_menu():
-#     tictactoe_game('HUMAN-HUMAN')
+def main_menu():
+    tictactoe_game('HUMAN-HUMAN')
 
-
-# if __name__ == '__main__':
-#     main_menu()
+if __name__ == '__main__':
+    main_menu()
