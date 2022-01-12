@@ -1,6 +1,10 @@
 def init_board():
     """Returns an empty 3-by-3 board (with .)."""
+<<<<<<< HEAD
     board = [ [ '.','.','.' ],[ '.','.','.' ],[ '.','.','.' ] ]
+=======
+    board = [[ '.','.','.' ],[ '.','.','.' ],[ '.','.','.' ]]
+>>>>>>> 3d30e31eba0421ce3f3cd2ebfbdf5e7198fa3282
     return board
 
 def get_move(board, row_dictionary):
@@ -84,19 +88,17 @@ def print_board(board):
         print(abc[row], " | ".join(board[row]))
         if row < 2:
             print(' ---+---+---')
-    pass
 
 
-def print_result(winner):
+def print_result(board,player):
     """Congratulates winner or proclaims tie (if winner equals zero)."""
 
-    if has_won(board, X):
-        print("X has won!")
-    elif has_won(board, 0):
-        print("0 has won!")
-    elif is_full:
-        print("It's a tie!")
-    pass
+    if has_won(board, player) and player == 'X':
+        return print("X has won!")
+    elif has_won(board, player) and player == '0':
+        return print("0 has won!")
+    elif is_full(board):
+        return print("It's a tie!")
 
 
 def tictactoe_game(mode='HUMAN-HUMAN'):
@@ -104,12 +106,17 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
     won = False
     row_dictionary= {'a':0,'b':1,'c':2}
     player_value = 0
+<<<<<<< HEAD
     while not won:
 
         print(board[0])
         print(board[1])
         print(board[2])
 
+=======
+    while won:
+        print_board(board)
+>>>>>>> 3d30e31eba0421ce3f3cd2ebfbdf5e7198fa3282
         player_value += 1
         if player_value % 2 == 1:
             player = 'X'
@@ -121,9 +128,17 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
             row, col = get_move(board, row_dictionary)
         board = mark(board, player, row, col, row_dictionary)
         won = has_won(board, player)
+<<<<<<< HEAD
         is_full_value = is_full(board)
         if won is True or is_full_value is True:
             pass
+=======
+        is_full = is_full(board)
+        if won is True or is_full is True:
+            print_result(board,player)
+
+tictactoe_game(mode='HUMAN-HUMAN')
+>>>>>>> 3d30e31eba0421ce3f3cd2ebfbdf5e7198fa3282
 
 tictactoe_game()
         
