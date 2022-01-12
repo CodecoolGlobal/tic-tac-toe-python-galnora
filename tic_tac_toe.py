@@ -1,6 +1,6 @@
 def init_board():
     """Returns an empty 3-by-3 board (with .)."""
-    board = []
+    board = [ [ '.','.','.' ],[ '.','.','.' ],[ '.','.','.' ] ]
     return board
 
 def get_move(board, row_dictionary):
@@ -75,10 +75,6 @@ def is_full(board):
                 break
     return is_board_full
 
-# print(is_full([ [ '.','.','.' ],[ '.','.','.' ],[ '.','.','.' ] ]))
-# print(is_full([ [ '','','' ],[ '','','' ],[ '','','' ] ]))
-# print(is_full([ [ '','.','' ],[ '','','' ],[ '','','' ] ]))
-
 
 def print_board(board):
     """Prints a 3-by-3 board on the screen with borders."""
@@ -108,7 +104,12 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
     won = False
     row_dictionary= {'a':0,'b':1,'c':2}
     player_value = 0
-    while won:
+    while not won:
+
+        print(board[0])
+        print(board[1])
+        print(board[2])
+
         player_value += 1
         if player_value % 2 == 1:
             player = 'X'
@@ -118,12 +119,13 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
             return print(get_move(board, row_dictionary))
         else:
             row, col = get_move(board, row_dictionary)
-        mark = mark(board, player, row, col, row_dictionary)
+        board = mark(board, player, row, col, row_dictionary)
         won = has_won(board, player)
-        is_full = is_full(board)
-        if won is True or is_full is True:
+        is_full_value = is_full(board)
+        if won is True or is_full_value is True:
+            pass
 
-        
+tictactoe_game()
         
 
  
