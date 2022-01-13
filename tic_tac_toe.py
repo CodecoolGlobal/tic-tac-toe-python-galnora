@@ -376,11 +376,7 @@ def main_menu():
         tictactoe_game_ah(mode='AI-HUMAN')
     if mode == '3':
         tictactoe_game_ha(mode='HUMAN-AI')
-    
-   
-main_menu()
-
-
-# if __name__ == '__main__':
-#     main_menu()
+        
+if __name__ == '__main__':
+    main_menu()
 
