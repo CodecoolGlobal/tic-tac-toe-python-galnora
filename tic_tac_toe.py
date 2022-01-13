@@ -8,7 +8,7 @@ def init_board():
     return board
 
 def get_move():
-    cordinates = input("cordinates ((A-C)(1-3)) or 'quit' for quit:")
+    cordinates = input("cordinates ((A-C)(1-3)) or 'quit' for quit:\n")
     return cordinates
 
 def get_ai_move_easy_to_lose(board, player):
@@ -71,69 +71,30 @@ def ai_win(board,player):
 def get_move_format (cordinates, board, row_dictionary):
     acceptable_rows = ['A','a','B','b','C','c']        
     acceptable_cols = [1,2,3]
+    invalid_cordinates = "Invalid cordinates, please try ((A-C)(1-3))\n"
+    taken_cordinates = "This cordinate isn't free, please try an other one\n"
     if not cordinates == "quit":
         if len(cordinates) == 2:
             cordinates_list=[]
             for n in cordinates:
                 cordinates_list.append(n)
-            row = cordinates_list[0].lower()
             try:
                 col = int(cordinates_list[1])
+                row = cordinates_list[0].lower()
+                if row in acceptable_rows and col in acceptable_cols:
+                    if board[row_dictionary[row]][col-1] == '.':
+                        return row, col
+                    else: 
+                        return False, taken_cordinates 
+                else:
+                    return False, invalid_cordinates
             except ValueError:
-                pass
-            if row in acceptable_rows and col in acceptable_cols:
-                if board[row_dictionary[row]][col-1] == '.':
-                    return row, col
-                else: 
-                    return False
-            else:
-                return False
+                return False, invalid_cordinates
         else: 
-            return False
+            return False, invalid_cordinates
     else:
         goodbye = "Goodbye"
         return goodbye
-
-import get_ai_move_unbeatable as ai_unbeat
-
-def get_ai_move_unbeatable(board, player):
-    board = {
-        1: board[0][0], 2: board[0][1], 3: board[0][2],
-        4: board[1][0], 5: board[1][1], 6: board[1][2],
-        7: board[2][0], 8: board[2][1], 9: board[2][2]}
-
-    def compMove(board):
-        bestScore = -800
-        bestMove = 0
-        for key in board.keys():
-            if (board[key] == '.'):
-                board[key] = player
-                score = ai_unbeat.minimax(board, 0, False, player)
-                board[key] = '.'
-                if (score > bestScore):
-                    bestScore = score
-                    bestMove = key
-        
-        return bestMove
-    
-    next_move = compMove(board)
-    
-    next_move_dict = {
-        1: (1,1), 2: (1,2), 3: (1,3),
-        4: (2,1), 5: (2,2), 6: (2,3),
-        7: (3,1), 8: (3,2), 9: (3,3)
-    }
-
-    # """Returns the coordinates of a valid move for player on board."""
-    row, col = next_move_dict[next_move]
-    return row, col
-
-print(
-    get_ai_move_unbeatable(
-        board = [ [ 'x','.','.' ],[ '.','o','.' ],[ '.','o','.' ] ],
-        player = 'x'
-    )
-)
 
 def mark(board, player, row, col, row_dictionary):
     """Marks the element at row & col on the board for player."""
@@ -174,7 +135,7 @@ def is_full(board):
 def print_board(board):
     """Prints a 3-by-3 board on the screen with borders."""
     abc = [ 'A', 'B', 'C' ]
-    print( '  1   2   3 ')
+    print( '\n  1   2   3 ')
     for row in range(len(board)):
         print(abc[row], " | ".join(board[row]))
         if row < 2:
@@ -198,14 +159,14 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
 
     while not won:
         print_board(board)
+
         player_value += 1
-        input = False
-        while input is False:
+        input = [False,' ']
+        while input[0] is False:
             if player_value % 2 == 1:
                 player = 'X'
                 ai_win_cordinates = ai_win(board,player)
                 ai_lose_cordinates = ai_win(board,'0')
-                print(ai_lose_cordinates)
                 if ai_win_cordinates != None:
                     cordinates = ai_win_cordinates
                 elif ai_lose_cordinates != None:
@@ -216,6 +177,8 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
                 player = '0'
                 cordinates = get_move()
             input = get_move_format(cordinates, board, row_dictionary)
+            if input[0] == False:
+                print(input[1])
         if len(input) == 2:     
             row, col = input
             board = mark(board, player, row, col, row_dictionary)
