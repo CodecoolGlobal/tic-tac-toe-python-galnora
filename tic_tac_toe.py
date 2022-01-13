@@ -30,6 +30,7 @@ def ai_random_moves(board,antirow_dictionary):
     row, col = next_move_dict[random_choice]
     return antirow_dictionary[row-1], col
 
+
 def get_ai_move_easy_to_lose(board, player, antirow_dictionary):
     """Returns the coordinates of a valid move for player on board."""
     if player == 'X':
@@ -109,6 +110,49 @@ def ai_win(board,player):
         elif board[1][j] == player and board[2][j] == player and board[0][j] == '.':
             return f"a",j+1
  
+
+    diagonPositions = [[0,0], [1,1], [2,2]]
+    alleyPositions = [[0,2], [1,1], [2,0]]
+
+    finalCoord = getFinalWinCoord(board, player, diagonPositions)
+    if finalCoord:
+        return finalCoord
+
+    finalCoord = getFinalWinCoord(board, player, alleyPositions)
+    if finalCoord:
+        return finalCoord
+    
+
+def getFinalWinCoord(board, player, positions):
+    
+    playerFieldCnt = 0
+    emptyFieldCnt = 0
+    emptyField = '.'
+    emptyFieldPos = None
+
+    for pos in positions:
+        value = board[pos[0]][pos[1]]
+
+        if value == player:
+            playerFieldCnt += 1
+
+        elif value == emptyField:
+            emptyFieldCnt += 1
+            emptyFieldPos = pos
+
+    if playerFieldCnt == 2 and emptyFieldCnt == 1:
+        return posToCoordinate(emptyFieldPos)
+    else:
+        return None
+
+def posToCoordinate(pos):
+    posToRowMap = ['a','b','c']
+    row = posToRowMap[pos[0]]
+    col = pos[1] + 1
+
+    return row,col
+
+
 def get_move_format (cordinates, board, row_dictionary):
     acceptable_rows = ['A','a','B','b','C','c']        
     acceptable_cols = [1,2,3]
