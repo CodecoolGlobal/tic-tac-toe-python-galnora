@@ -8,7 +8,7 @@ def init_board():
     return board
 
 def get_move():
-    cordinates = input("cordinates ((A-C)(1-3)) or 'quit' for quit:\n")
+    cordinates = input("\ncordinates ((A-C)(1-3)) or 'quit' for quit:\n")
     return cordinates
 
 def ai_random_moves(board,antirow_dictionary):
@@ -230,17 +230,17 @@ def print_result(board,player):
     """Congratulates winner or proclaims tie (if winner equals zero)."""
 
     if has_won(board, player) and player == 'X':
-        return print(Fore.RED + "X has won!\n")
+        return print(Fore.RED + "\nX has won!\n")
     elif has_won(board, player) and player == '0':
-        return print(Fore.BLUE + "0 has won!\n")
+        return print(Fore.BLUE + "\n0 has won!\n")
     elif is_full(board):
-        return print(Fore.GREEN + "It's a tie!\n")
+        return print(Fore.GREEN + "\nIt's a tie!\n")
 
 def difficulty():
     difficulty = input("Easy (1) or hard(2)? \n")
     return difficulty
 
-def tictactoe_game(mode='HUMAN-AI'):
+def tictactoe_game_ha(mode='HUMAN-AI'):
 
     diff = difficulty()
     board = init_board()
@@ -286,101 +286,99 @@ def tictactoe_game(mode='HUMAN-AI'):
         else:
             return print(input)
 
-# def tictactoe_game(mode='AI-HUMAN'):
+def tictactoe_game_ah(mode='AI_HUMAN'):
 
-#     diff = difficulty()
-#     board = init_board()
-#     won = False
-#     row_dictionary = {'a':0,'b':1,'c':2}
-#     antirow_dictionary = {0:'a', 1:'b', 2:'c'}
-#     player_value = 0
+    diff = difficulty()
+    board = init_board()
+    won = False
+    row_dictionary = {'a':0,'b':1,'c':2}
+    antirow_dictionary = {0:'a', 1:'b', 2:'c'}
+    player_value = 0
 
-#     while not won:
-#         print_board(board)
-#         player_value += 1
-#         input = [False,' ']
-#         while input[0] is False:
-#             if player_value % 2 == 1:
-#                 player = 'X'
-#                 ai_win_cordinates = ai_win(board,player)
-#                 ai_lose_cordinates = ai_win(board,'0')
-#                 if ai_win_cordinates != None:
-#                     cordinates = ai_win_cordinates
-#                 elif ai_lose_cordinates != None:
-#                     cordinates = ai_lose_cordinates
-#                 else:
-#                     if diff == '1':
-#                         cordinates = ai_random_moves(board,antirow_dictionary)
-#                     else:
-#                         cordinates = get_ai_move_easy_to_lose(board,player,antirow_dictionary)[player_value // 2]
-#             else:
-#                 player = '0'
-#                 cordinates = get_move()
-#             input = get_move_format(cordinates, board, row_dictionary)
-#             if input[0] == False:
-#                 return_message = (input[1])
-#                 print(return_message)
-#         if len(input) == 3:     
-#             row = input[1]
-#             col = input[2]
-#             board = mark(board, player, row, col, row_dictionary)
-#             won = has_won(board, player)
-#             is_full_value = is_full(board)
-#             if won is True or is_full_value is True:
-#                 return print_board(board), print_result(board,player)
+    while not won:
+        print_board(board)
+        player_value += 1
+        input = [False,' ']
+        while input[0] is False:
+            if player_value % 2 == 1:
+                player = 'X'
+                ai_win_cordinates = ai_win(board,player)
+                ai_lose_cordinates = ai_win(board,'0')
+                if ai_win_cordinates != None:
+                    cordinates = ai_win_cordinates
+                elif ai_lose_cordinates != None:
+                    cordinates = ai_lose_cordinates
+                else:
+                    if diff == '1':
+                        cordinates = ai_random_moves(board,antirow_dictionary)
+                    else:
+                        cordinates = get_ai_move_easy_to_lose(board,player,antirow_dictionary)[player_value // 2]
+            else:
+                player = '0'
+                cordinates = get_move()
+            input = get_move_format(cordinates, board, row_dictionary)
+            if input[0] == False:
+                return_message = (input[1])
+                print(return_message)
+        if len(input) == 3:     
+            row = input[1]
+            col = input[2]
+            board = mark(board, player, row, col, row_dictionary)
+            won = has_won(board, player)
+            is_full_value = is_full(board)
+            if won is True or is_full_value is True:
+                return print_board(board), print_result(board,player)
 
-#         else:
-#             return print(input)
-#tictactoe_game(mode='AI-HUMAN')
+        else:
+            return print(input)
         
-# def tictactoe_game(mode='HUMAN-HUMAN'):
-#     board = init_board()
-#     won = False
-#     row_dictionary = {'a':0,'b':1,'c':2}
-#     antirow_dictionary = {0:'a', 1:'b', 2:'c'}
-#     player_value = 0
+def tictactoe_game_hh(mode='HUMAN-HUMAN'):
+    board = init_board()
+    won = False
+    row_dictionary = {'a':0,'b':1,'c':2}
+    antirow_dictionary = {0:'a', 1:'b', 2:'c'}
+    player_value = 0
 
-#     while not won:
-#         print_board(board)
+    while not won:
+        print_board(board)
 
-#         player_value += 1
-#         input = [False,' ']
-#         while input[0] is False:
-#             if player_value % 2 == 1:
-#                 player = 'X'
-#                 cordinates = get_move()
-#             else:
-#                 player = '0'
-#                 cordinates = get_move()
-#             input = get_move_format(cordinates, board, row_dictionary)
-#             if input[0] == False:
-#                 print(input[1])
-#         if len(input) == 2:     
-#             row, col = input
-#             board = mark(board, player, row, col, row_dictionary)
-#             won = has_won(board, player)
-#             is_full_value = is_full(board)
-#             if won is True or is_full_value is True:
-#                 return print_board(board), print_result(board,player)
+        player_value += 1
+        input = [False,' ']
+        while input[0] is False:
+            if player_value % 2 == 1:
+                player = 'X'
+                cordinates = get_move()
+            else:
+                player = '0'
+                cordinates = get_move()
+            input = get_move_format(cordinates, board, row_dictionary)
+            if input[0] == False:
+                return_message = (input[1])
+                print(return_message)
+        if len(input) == 3:     
+            row = input[1]
+            col = input[2]
+            board = mark(board, player, row, col, row_dictionary)
+            won = has_won(board, player)
+            is_full_value = is_full(board)
+            if won is True or is_full_value is True:
+                return print_board(board), print_result(board,player)
 
-#         else:
-#             return print(input)
-tictactoe_game(mode='AI-HUMAN')
-    # use get_move(), mark(), has_won(), is_full(), and print_board() to create game logic
+        else:
+            return print(input)
+
+
+def main_menu():
+    mode = input("HUMAN-HUMAN (1), AI-HUMAN (2), OR HUMAN-AI (3)? \n")
+    if mode == '1':
+        tictactoe_game_hh(mode='HUMAN-HUMAN')
+    if mode == '2':
+        tictactoe_game_ah(mode='AI-HUMAN')
+    if mode == '3':
+        tictactoe_game_ha(mode='HUMAN-AI')
+    
    
-
-
-
-#     print_board(board)
-#     row, col = get_move(board, 1)
-#     mark(board, 1, row, col)
-
-#     winner = 0
-#     print_result(winner)
-
-
-# def main_menu():
-#     tictactoe_game('HUMAN-HUMAN')
+main_menu()
 
 
 # if __name__ == '__main__':
