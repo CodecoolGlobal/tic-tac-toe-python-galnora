@@ -62,11 +62,11 @@ def ai_win(board,player):
 
     for j in range(len(board)):
         if board[0][j] == player and board[1][j] == player and board[2][j] == '.':
-            return f"c",j
+            return f"c",j+1
         elif board[0][j] == player and board[2][j] == player and board[1][j] == '.':
-            return f"b",j
+            return f"b",j+1
         elif board[1][j] == player and board[2][j] == player and board[0][j] == '.':
-            return f"a",j
+            return f"a",j+1
  
 def get_move_format (cordinates, board, row_dictionary):
     acceptable_rows = ['A','a','B','b','C','c']        
@@ -205,6 +205,7 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
                 player = 'X'
                 ai_win_cordinates = ai_win(board,player)
                 ai_lose_cordinates = ai_win(board,'0')
+                print(ai_lose_cordinates)
                 if ai_win_cordinates != None:
                     cordinates = ai_win_cordinates
                 elif ai_lose_cordinates != None:
