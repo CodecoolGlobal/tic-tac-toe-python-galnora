@@ -1,40 +1,97 @@
+from colorama import Fore
+import random
+
 def init_board():
     """Returns an empty 3-by-3 board (with .)."""
     board = [ [ '.','.','.' ],[ '.','.','.' ],[ '.','.','.' ] ]
     return board
 
-def get_move(board, row_dictionary):
-    """Returns the coordinates of a valid move for player on board."""
-    row, col = 0, 0
-    acceptable_rows = ['A','a','B','b','C','c']        
-    acceptable_cols = [1,2,3] 
-    while True:
-        cordinates = input ("cordinates ((A-C)(1-3)) or 'quit' for quit:")
-        if not cordinates == "quit":
-            if len(cordinates) == 2:
-                cordinates_list=[]
-                for n in cordinates:
-                    cordinates_list.append(n)
-                row = cordinates_list[0].lower()
-                try:
-                    col = int(cordinates_list[1])
-                except ValueError:
-                     pass
-                if row in acceptable_rows and col in acceptable_cols:
-                    if board[row_dictionary['a']][col-1] == '.':
-                        return row, col
-                    if board[row_dictionary['b']][col-1] == '.':
-                        return row, col
-                    if board[row_dictionary['c']][col-1] == '.':
-                        return row, col
-        else:
-            goodbye = "Goodbye"
-            return goodbye
-# def get_ai_move(board, player):
-#     """Returns the coordinates of a valid move for player on board."""
-#     row, col = 0, 0
-#     return row, col
+def get_move():
+    cordinates = input("cordinates ((A-C)(1-3)) or 'quit' for quit:")
+    return cordinates
 
+def get_ai_move_easy_to_lose(board, player):
+    """Returns the coordinates of a valid move for player on board."""
+    if player == 'X':
+        first_step = ['c1']
+        second_step_corner = ['a3','b3']
+        second_step = ['a1','c3']
+        third_step_corner_a3 = ['a1','a2','b1']
+        third_step_corner_b3 = ['a3','c2','c3']
+        third_step = ['b2','c3']
+        forth_step = ['a3','b1','c2']
+        first_return = random.choice(first_step)
+        if board[1][1] == '0':
+            second_return = random.choice(second_step_corner)
+            if board[0][2] == 'X':
+                third_return = random.choice(third_step_corner_a3)
+            else:
+                third_return = random.choice(third_step_corner_b3)
+            forth_return = random.choice(forth_step)
+        else:
+            second_return = random.choice(second_step)
+            third_return = random.choice(third_step)
+            forth_return = random.choice(forth_step)
+        
+        return first_return, second_return, third_return, forth_return
+
+def ai_win(board,player):
+    for i in range(len(board)):
+        if board[i][0] == player and board[i][1] == player and board[i][2] == '.':
+            if i == 0:
+                return f"a",3
+            if i == 1:
+                return f"b",3
+            if i == 2:
+                return f"c",3
+        elif board[i][0] == player and board[i][2] == player and board[i][1] == '.':
+            if i == 0:
+                return f"a",2
+            if i == 1:
+                return f"b",2
+            if i == 2:
+                return f"c",2
+        elif board[i][1] == player and board[i][2] == player and board[i][0] == '.':
+            if i == 0:
+                return f"a",1
+            if i == 1:
+                return f"b",1
+            if i == 2:
+                return f"c",1
+
+    for j in range(len(board)):
+        if board[0][j] == player and board[1][j] == player and board[2][j] == '.':
+            return f"c",j
+        elif board[0][j] == player and board[2][j] == player and board[1][j] == '.':
+            return f"b",j
+        elif board[1][j] == player and board[2][j] == player and board[0][j] == '.':
+            return f"a",j
+ 
+def get_move_format (cordinates, board, row_dictionary):
+    acceptable_rows = ['A','a','B','b','C','c']        
+    acceptable_cols = [1,2,3]
+    if not cordinates == "quit":
+        if len(cordinates) == 2:
+            cordinates_list=[]
+            for n in cordinates:
+                cordinates_list.append(n)
+            row = cordinates_list[0].lower()
+            try:
+                col = int(cordinates_list[1])
+            except ValueError:
+                pass
+            if row in acceptable_rows and col in acceptable_cols:
+                if board[row_dictionary[row]][col-1] == '.':
+                    return row, col
+                else: 
+                    return False
+            else:
+                return False
+        else: 
+            return False
+    else:
+        goodbye = "Goodbye"
+        return goodbye
 
 def mark(board, player, row, col, row_dictionary):
     """Marks the element at row & col on the board for player."""
@@ -63,8 +120,6 @@ def has_won(board, player):
 
     return win
 
-
-
 def is_full(board):
     is_board_full = True
     for row in board:
@@ -73,7 +128,6 @@ def is_full(board):
                 is_board_full = False
                 break
     return is_board_full
-
 
 def print_board(board):
     """Prints a 3-by-3 board on the screen with borders."""
@@ -84,17 +138,15 @@ def print_board(board):
         if row < 2:
             print(' ---+---+---')
 
-
 def print_result(board,player):
     """Congratulates winner or proclaims tie (if winner equals zero)."""
 
     if has_won(board, player) and player == 'X':
-        return print("X has won!")
+        return print(Fore.RED + "X has won!\n")
     elif has_won(board, player) and player == '0':
-        return print("0 has won!")
+        return print(Fore.BLUE + "0 has won!\n")
     elif is_full(board):
-        return print("It's a tie!")
-
+        return print(Fore.GREEN + "It's a tie!\n")
 
 def tictactoe_game(mode='HUMAN-HUMAN'):
     board = init_board()
@@ -103,32 +155,35 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
     player_value = 0
 
     while not won:
-
-        print(board[0])
-        print(board[1])
-        print(board[2])
-
+        print_board(board)
         player_value += 1
-        if player_value % 2 == 1:
-            player = 'X'
-        else:
-            player = '0'
-        # if len(get_move(board, row_dictionary)) == 1:
-        #     return print(get_move(board, row_dictionary))
-        # else:
-        row, col = get_move(board, row_dictionary)
-        board = mark(board, player, row, col, row_dictionary)
-        won = has_won(board, player)
-        is_full_value = is_full(board)
-        if won is True or is_full_value is True:
-            # pass
-        # is_full = is_full(board)
-        # if won is True or is_full is True:
-            print_result(board,player)
-        
-# tictactoe_game()
-tictactoe_game(mode='HUMAN-HUMAN')
+        input = False
+        while input is False:
+            if player_value % 2 == 1:
+                player = 'X'
+                ai_win_cordinates = ai_win(board,player)
+                ai_lose_cordinates = ai_win(board,'0')
+                if ai_win_cordinates != None:
+                    cordinates = ai_win_cordinates
+                elif ai_lose_cordinates != None:
+                    cordinates = ai_lose_cordinates
+                else:
+                    cordinates = get_ai_move_easy_to_lose(board,player)[player_value // 2]
+            else:
+                player = '0'
+                cordinates = get_move()
+            input = get_move_format(cordinates, board, row_dictionary)
+        if len(input) == 2:     
+            row, col = input
+            board = mark(board, player, row, col, row_dictionary)
+            won = has_won(board, player)
+            is_full_value = is_full(board)
+            if won is True or is_full_value is True:
+                return print_board(board), print_result(board,player)
 
+        else:
+            return print(input)
+tictactoe_game(mode='HUMAN-HUMAN')
         
 
  
@@ -151,3 +206,4 @@ tictactoe_game(mode='HUMAN-HUMAN')
 
 # if __name__ == '__main__':
 #     main_menu()
+
