@@ -11,7 +11,7 @@ def get_move():
     cordinates = input("cordinates ((A-C)(1-3)) or 'quit' for quit:\n")
     return cordinates
 
-def get_ai_move_easy_to_lose(board, player):
+def get_ai_move_easy_to_lose(board, player, antirow_dictionary):
     """Returns the coordinates of a valid move for player on board."""
     if player == 'X':
         first_step = ['c1']
@@ -33,8 +33,30 @@ def get_ai_move_easy_to_lose(board, player):
             second_return = random.choice(second_step)
             third_return = random.choice(third_step)
             forth_return = random.choice(forth_step)
+        for n in range(len(board)):
+            for m in range(len(board)):
+                if board[n][m] == ".":
+                    fifth_step = n,m
+                    fifth_return =''
+                    fifth_return += antirow_dictionary[fifth_step[0]]
+                    fifth_return += str(fifth_step[1])
         
+        return first_return, second_return, third_return, forth_return, fifth_return
+    if player == '0':
+        first_step = ['a1','a3','c1','c3']
+        second_step = ['a1','a3','c1','c3']
+        third_step = ['a2','b1','b3','c2']
+        forth_step = ['a2','b1','b3','c2']
+        if board[1][1] == '.':
+            first_return = 'b2'
+        else:
+            first_return = random.choice(first_step)
+        second_return = random.choice(first_step)
+        third_return = random.choice(third_step)
+        forth_return = random.choice(third_step)
+
         return first_return, second_return, third_return, forth_return
+        
 
 def ai_win(board,player):
     for i in range(len(board)):
@@ -154,7 +176,8 @@ def print_result(board,player):
 def tictactoe_game(mode='HUMAN-HUMAN'):
     board = init_board()
     won = False
-    row_dictionary= {'a':0,'b':1,'c':2}
+    row_dictionary = {'a':0,'b':1,'c':2}
+    antirow_dictionary = {0:'a', 1:'b', 2:'c'}
     player_value = 0
 
     while not won:
@@ -172,7 +195,7 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
                 elif ai_lose_cordinates != None:
                     cordinates = ai_lose_cordinates
                 else:
-                    cordinates = get_ai_move_easy_to_lose(board,player)[player_value // 2]
+                    cordinates = get_ai_move_easy_to_lose(board,player,antirow_dictionary)[player_value // 2]
             else:
                 player = '0'
                 cordinates = get_move()
