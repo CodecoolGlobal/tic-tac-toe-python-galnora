@@ -33,7 +33,7 @@ def ai_random_moves(board,antirow_dictionary):
 
 def get_ai_move_easy_to_lose(board, player, antirow_dictionary):
     """Returns the coordinates of a valid move for player on board."""
-    if player == 'X':
+    if player == '✖':
         first_step = ['c1']
         second_step_corner = ['a3','b3']
         second_step = ['a1','c3']
@@ -42,9 +42,9 @@ def get_ai_move_easy_to_lose(board, player, antirow_dictionary):
         third_step = ['b2','c3']
         forth_step = ['a3','b1','c2']
         first_return = random.choice(first_step)
-        if board[1][1] == '0':
+        if board[1][1] == '♥':
             second_return = random.choice(second_step_corner)
-            if board[0][2] == 'X':
+            if board[0][2] == '✖':
                 third_return = random.choice(third_step_corner_a3)
             else:
                 third_return = random.choice(third_step_corner_b3)
@@ -62,7 +62,7 @@ def get_ai_move_easy_to_lose(board, player, antirow_dictionary):
                     fifth_return += str(fifth_step[1])
         
         return first_return, second_return, third_return, forth_return, fifth_return
-    if player == '0':
+    if player == '♥':
         first_step = ['a1','a3','c1','c3']
         second_step = ['a1','a3','c1','c3']
         third_step = ['a2','b1','b3','c2']
