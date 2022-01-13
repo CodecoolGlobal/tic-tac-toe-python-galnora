@@ -178,7 +178,7 @@ def get_move_format (cordinates, board, row_dictionary):
         else: 
             return False, invalid_cordinates
     else:
-        goodbye = "Goodbye"
+        goodbye = "\nGoodbye Human Player! Hope to see you soon! :)\n"
         return goodbye
 
 def mark(board, player, row, col, row_dictionary):
