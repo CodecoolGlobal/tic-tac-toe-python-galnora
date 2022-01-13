@@ -183,7 +183,7 @@ def get_move_format (cordinates, board, row_dictionary):
 
 def mark(board, player, row, col, row_dictionary):
     """Marks the element at row & col on the board for player."""
-    if player == '0':
+    if player == '♥':
         board[row_dictionary[row]][col-1] = '♥'
     else:
         board[row_dictionary[row]][col-1] = '✖'
@@ -229,10 +229,10 @@ def print_board(board):
 def print_result(board,player):
     """Congratulates winner or proclaims tie (if winner equals zero)."""
 
-    if has_won(board, player) and player == 'X':
-        return print(Fore.RED + "\nX has won!\n")
-    elif has_won(board, player) and player == '0':
-        return print(Fore.BLUE + "\n0 has won!\n")
+    if has_won(board, player) and player == '✖':
+        return print(Fore.RED + "\n✖ has won!\n")
+    elif has_won(board, player) and player == '♥':
+        return print(Fore.BLUE + "\n♥ has won!\n")
     elif is_full(board):
         return print(Fore.GREEN + "\nIt's a tie!\n")
 
@@ -255,12 +255,12 @@ def tictactoe_game_ha(mode='HUMAN-AI'):
         input = [False,' ']
         while input[0] is False:
             if player_value % 2 == 1:
-                player = 'X'
+                player = '✖'
                 cordinates = get_move()
             else:
-                player = '0'
+                player = '♥'
                 ai_win_cordinates = ai_win(board,player)
-                ai_lose_cordinates = ai_win(board,'X')
+                ai_lose_cordinates = ai_win(board,'✖')
                 if ai_win_cordinates != None:
                     cordinates = ai_win_cordinates
                 elif ai_lose_cordinates != None:
@@ -301,9 +301,9 @@ def tictactoe_game_ah(mode='AI_HUMAN'):
         input = [False,' ']
         while input[0] is False:
             if player_value % 2 == 1:
-                player = 'X'
+                player = '✖'
                 ai_win_cordinates = ai_win(board,player)
-                ai_lose_cordinates = ai_win(board,'0')
+                ai_lose_cordinates = ai_win(board,'♥')
                 if ai_win_cordinates != None:
                     cordinates = ai_win_cordinates
                 elif ai_lose_cordinates != None:
@@ -314,7 +314,7 @@ def tictactoe_game_ah(mode='AI_HUMAN'):
                     else:
                         cordinates = get_ai_move_easy_to_lose(board,player,antirow_dictionary)[player_value // 2]
             else:
-                player = '0'
+                player = '♥'
                 cordinates = get_move()
             input = get_move_format(cordinates, board, row_dictionary)
             if input[0] == False:
@@ -346,10 +346,10 @@ def tictactoe_game_hh(mode='HUMAN-HUMAN'):
         input = [False,' ']
         while input[0] is False:
             if player_value % 2 == 1:
-                player = 'X'
+                player = '✖'
                 cordinates = get_move()
             else:
-                player = '0'
+                player = '♥'
                 cordinates = get_move()
             input = get_move_format(cordinates, board, row_dictionary)
             if input[0] == False:
