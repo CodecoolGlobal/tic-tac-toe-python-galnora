@@ -32,11 +32,47 @@ def get_move(board, row_dictionary):
         else:
             goodbye = "Goodbye"
             return goodbye
-# def get_ai_move(board, player):
-#     """Returns the coordinates of a valid move for player on board."""
-#     row, col = 0, 0
-#     return row, col
 
+import get_ai_move_unbeatable as ai_unbeat
+
+def get_ai_move_unbeatable(board, player):
+    board = {
+        1: board[0][0], 2: board[0][1], 3: board[0][2],
+        4: board[1][0], 5: board[1][1], 6: board[1][2],
+        7: board[2][0], 8: board[2][1], 9: board[2][2]}
+
+    def compMove(board):
+        bestScore = -800
+        bestMove = 0
+        for key in board.keys():
+            if (board[key] == '.'):
+                board[key] = player
+                score = ai_unbeat.minimax(board, 0, False, player)
+                board[key] = '.'
+                if (score > bestScore):
+                    bestScore = score
+                    bestMove = key
+        
+        return bestMove
+    
+    next_move = compMove(board)
+    
+    next_move_dict = {
+        1: (1,1), 2: (1,2), 3: (1,3),
+        4: (2,1), 5: (2,2), 6: (2,3),
+        7: (3,1), 8: (3,2), 9: (3,3)
+    }
+
+    # """Returns the coordinates of a valid move for player on board."""
+    row, col = next_move_dict[next_move]
+    return row, col
+
+print(
+    get_ai_move_unbeatable(
+        board = [ [ 'x','.','.' ],[ '.','o','.' ],[ '.','o','.' ] ],
+        player = 'x'
+    )
+)
 
 def mark(board, player, row, col, row_dictionary):
     """Marks the element at row & col on the board for player."""
@@ -124,7 +160,7 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
 
         else:
             return print(input)
-tictactoe_game(mode='HUMAN-HUMAN')
+# tictactoe_game(mode='HUMAN-HUMAN')
         
 
  
