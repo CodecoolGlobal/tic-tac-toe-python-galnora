@@ -8,10 +8,10 @@ def init_board():
     return board
 
 def get_move():
-    cordinates = input("cordinates ((A-C)(1-3)) or 'quit' for quit:")
+    cordinates = input("cordinates ((A-C)(1-3)) or 'quit' for quit:\n")
     return cordinates
 
-def get_ai_move_easy_to_lose(board, player):
+def get_ai_move_easy_to_lose(board, player, antirow_dictionary):
     """Returns the coordinates of a valid move for player on board."""
     if player == 'X':
         first_step = ['c1']
@@ -33,8 +33,30 @@ def get_ai_move_easy_to_lose(board, player):
             second_return = random.choice(second_step)
             third_return = random.choice(third_step)
             forth_return = random.choice(forth_step)
+        for n in range(len(board)):
+            for m in range(len(board)):
+                if board[n][m] == ".":
+                    fifth_step = n,m
+                    fifth_return =''
+                    fifth_return += antirow_dictionary[fifth_step[0]]
+                    fifth_return += str(fifth_step[1])
         
+        return first_return, second_return, third_return, forth_return, fifth_return
+    if player == '0':
+        first_step = ['a1','a3','c1','c3']
+        second_step = ['a1','a3','c1','c3']
+        third_step = ['a2','b1','b3','c2']
+        forth_step = ['a2','b1','b3','c2']
+        if board[1][1] == '.':
+            first_return = 'b2'
+        else:
+            first_return = random.choice(first_step)
+        second_return = random.choice(first_step)
+        third_return = random.choice(third_step)
+        forth_return = random.choice(third_step)
+
         return first_return, second_return, third_return, forth_return
+        
 
 def ai_win(board,player):
     for i in range(len(board)):
@@ -62,78 +84,39 @@ def ai_win(board,player):
 
     for j in range(len(board)):
         if board[0][j] == player and board[1][j] == player and board[2][j] == '.':
-            return f"c",j
+            return f"c",j+1
         elif board[0][j] == player and board[2][j] == player and board[1][j] == '.':
-            return f"b",j
+            return f"b",j+1
         elif board[1][j] == player and board[2][j] == player and board[0][j] == '.':
-            return f"a",j
+            return f"a",j+1
  
 def get_move_format (cordinates, board, row_dictionary):
     acceptable_rows = ['A','a','B','b','C','c']        
     acceptable_cols = [1,2,3]
+    invalid_cordinates = "Invalid cordinates, please try ((A-C)(1-3))\n"
+    taken_cordinates = "This cordinate isn't free, please try an other one\n"
     if not cordinates == "quit":
         if len(cordinates) == 2:
             cordinates_list=[]
             for n in cordinates:
                 cordinates_list.append(n)
-            row = cordinates_list[0].lower()
             try:
                 col = int(cordinates_list[1])
+                row = cordinates_list[0].lower()
+                if row in acceptable_rows and col in acceptable_cols:
+                    if board[row_dictionary[row]][col-1] == '.':
+                        return row, col
+                    else: 
+                        return False, taken_cordinates 
+                else:
+                    return False, invalid_cordinates
             except ValueError:
-                pass
-            if row in acceptable_rows and col in acceptable_cols:
-                if board[row_dictionary[row]][col-1] == '.':
-                    return row, col
-                else: 
-                    return False
-            else:
-                return False
+                return False, invalid_cordinates
         else: 
-            return False
+            return False, invalid_cordinates
     else:
         goodbye = "Goodbye"
         return goodbye
-
-import get_ai_move_unbeatable as ai_unbeat
-
-def get_ai_move_unbeatable(board, player):
-    board = {
-        1: board[0][0], 2: board[0][1], 3: board[0][2],
-        4: board[1][0], 5: board[1][1], 6: board[1][2],
-        7: board[2][0], 8: board[2][1], 9: board[2][2]}
-
-    def compMove(board):
-        bestScore = -800
-        bestMove = 0
-        for key in board.keys():
-            if (board[key] == '.'):
-                board[key] = player
-                score = ai_unbeat.minimax(board, 0, False, player)
-                board[key] = '.'
-                if (score > bestScore):
-                    bestScore = score
-                    bestMove = key
-        
-        return bestMove
-    
-    next_move = compMove(board)
-    
-    next_move_dict = {
-        1: (1,1), 2: (1,2), 3: (1,3),
-        4: (2,1), 5: (2,2), 6: (2,3),
-        7: (3,1), 8: (3,2), 9: (3,3)
-    }
-
-    # """Returns the coordinates of a valid move for player on board."""
-    row, col = next_move_dict[next_move]
-    return row, col
-
-print(
-    get_ai_move_unbeatable(
-        board = [ [ 'x','.','.' ],[ '.','o','.' ],[ '.','o','.' ] ],
-        player = 'x'
-    )
-)
 
 def mark(board, player, row, col, row_dictionary):
     """Marks the element at row & col on the board for player."""
@@ -174,7 +157,7 @@ def is_full(board):
 def print_board(board):
     """Prints a 3-by-3 board on the screen with borders."""
     abc = [ 'A', 'B', 'C' ]
-    print( '  1   2   3 ')
+    print( '\n  1   2   3 ')
     for row in range(len(board)):
         print(abc[row], " | ".join(board[row]))
         if row < 2:
@@ -193,14 +176,16 @@ def print_result(board,player):
 def tictactoe_game(mode='HUMAN-HUMAN'):
     board = init_board()
     won = False
-    row_dictionary= {'a':0,'b':1,'c':2}
+    row_dictionary = {'a':0,'b':1,'c':2}
+    antirow_dictionary = {0:'a', 1:'b', 2:'c'}
     player_value = 0
 
     while not won:
         print_board(board)
+
         player_value += 1
-        input = False
-        while input is False:
+        input = [False,' ']
+        while input[0] is False:
             if player_value % 2 == 1:
                 player = 'X'
                 ai_win_cordinates = ai_win(board,player)
@@ -210,11 +195,13 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
                 elif ai_lose_cordinates != None:
                     cordinates = ai_lose_cordinates
                 else:
-                    cordinates = get_ai_move_easy_to_lose(board,player)[player_value // 2]
+                    cordinates = get_ai_move_easy_to_lose(board,player,antirow_dictionary)[player_value // 2]
             else:
                 player = '0'
                 cordinates = get_move()
             input = get_move_format(cordinates, board, row_dictionary)
+            if input[0] == False:
+                print(input[1])
         if len(input) == 2:     
             row, col = input
             board = mark(board, player, row, col, row_dictionary)
