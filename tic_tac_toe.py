@@ -11,6 +11,27 @@ def get_move():
     cordinates = input("cordinates ((A-C)(1-3)) or 'quit' for quit:\n")
     return cordinates
 
+def ai_random_moves(board, empty_place_sign = "."):
+    board = {1: board[0][0], 2: board[0][1], 3: board[0][2],
+            4: board[1][0], 5: board[1][1], 6: board[1][2],
+            7: board[2][0], 8: board[2][1], 9: board[2][2]}
+
+    empty_indexies = []
+    for i in range(len(board)):
+        if board[i] == empty_place_sign:
+            empty_indexies.append(i)
+
+    random_choice = random.choice(empty_indexies)
+
+    next_move_dict = {1: (1,1), 2: (1,2), 3: (1,3),
+                    4: (2,1), 5: (2,2), 6: (2,3),
+                    7: (3,1), 8: (3,2), 9: (3,3)}
+
+    row, col = next_move_dict[random_choice]
+    return row, col
+
+def get_ai_move_easy_to_lose(board, player):
+
 def get_ai_move_easy_to_lose(board, player, antirow_dictionary):
     """Returns the coordinates of a valid move for player on board."""
     if player == 'X':
