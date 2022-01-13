@@ -184,9 +184,9 @@ def get_move_format (cordinates, board, row_dictionary):
 def mark(board, player, row, col, row_dictionary):
     """Marks the element at row & col on the board for player."""
     if player == '0':
-        board[row_dictionary[row]][col-1] = '0'
+        board[row_dictionary[row]][col-1] = '♥'
     else:
-        board[row_dictionary[row]][col-1] = 'X'
+        board[row_dictionary[row]][col-1] = '✖'
     return board
 
 def has_won(board, player):
@@ -376,7 +376,7 @@ def main_menu():
         tictactoe_game_ah(mode='AI-HUMAN')
     if mode == '3':
         tictactoe_game_ha(mode='HUMAN-AI')
-        
+
 if __name__ == '__main__':
     main_menu()
 
