@@ -272,8 +272,9 @@ def tictactoe_game_ha(mode='HUMAN-AI'):
                         cordinates = get_ai_move_easy_to_lose(board,player,antirow_dictionary)[player_value // 2]
             input = get_move_format(cordinates, board, row_dictionary)
             if input[0] == False:
-                return_message = (input[1])
-                print(return_message)
+                if player == '✖':
+                    return_message = (input[1])
+                    print(return_message)
         if len(input) == 3:     
             row = input[1]
             col = input[2]
